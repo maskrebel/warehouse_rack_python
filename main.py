@@ -64,6 +64,49 @@ class WarehouseRack:
         print(slot_number)
 
 
+class Validator:
+    def __init__(self, commands):
+        self.commands = commands
+        self.map_action_validation = {
+            "create_rack": {
+                "count": 2,
+                "fields": (commands[1].isdigit(), True) if len(commands) >= 2 else (False, True)
+            },
+            "rack": {
+                "count": 3
+            },
+            "rack_out": {
+                "count": 2,
+            },
+            "status": {
+                "count": 1,
+            },
+            "sku_numbers_for_product_with_exp_date": {
+                "count": 2,
+            },
+            "slot_numbers_for_product_with_exp_date": {
+                "count": 2,
+            },
+            "slot_number_for_sku_number": {
+                "count": 2,
+            }
+        }
+
+    def valid(self, action):
+        result = self.map_action_validation[action]
+
+        res = None
+        if not len(self.commands) == result["count"]:
+            res = f"{action} need {result['count']} arguments"
+
+        elif result.get("fields"):
+            need, expected = result["fields"]
+            if need != expected:
+                res = f"{action} fields is missing"
+
+        return res
+
+
 def main():
     rack = None
 
@@ -77,36 +120,72 @@ def main():
             break
 
         if action == 'create_rack':
-            total = int(commands[1])
-            rack = WarehouseRack(total)
+            validation = Validator(commands)
+            if failure:= validation.valid(action):
+                print(failure)
+
+            else:
+                total = int(commands[1])
+                rack = WarehouseRack(total)
+
             continue
 
         if not rack:
             print("Please create a rack first using 'create_rack'.")
 
         elif action == 'rack':
-            sku = commands[1]
-            expiry_date = commands[2]
-            rack.rack(sku, expiry_date)
+            validation = Validator(commands)
+            if failure := validation.valid(action):
+                print(failure)
+
+            else:
+                sku = commands[1]
+                expiry_date = commands[2]
+                rack.rack(sku, expiry_date)
 
         elif action == 'rack_out':
-            slot_number = int(commands[1])
-            rack.rack_out(slot_number)
+            validation = Validator(commands)
+            if failure := validation.valid(action):
+                print(failure)
+
+            else:
+                slot_number = int(commands[1])
+                rack.rack_out(slot_number)
 
         elif action == 'status':
-            rack.status()
+            validation = Validator(commands)
+            if failure := validation.valid(action):
+                print(failure)
+
+            else:
+                rack.status()
 
         elif action == 'sku_numbers_for_product_with_exp_date':
-            exp_date = commands[1]
-            rack.sku_numbers_for_product_with_exp_date(exp_date)
+            validation = Validator(commands)
+            if failure := validation.valid(action):
+                print(failure)
+
+            else:
+                exp_date = commands[1]
+                rack.sku_numbers_for_product_with_exp_date(exp_date)
 
         elif action == 'slot_numbers_for_product_with_exp_date':
-            exp_date = commands[1]
-            rack.slot_numbers_for_product_with_exp_date(exp_date)
+            validation = Validator(commands)
+            if failure := validation.valid(action):
+                print(failure)
+
+            else:
+                exp_date = commands[1]
+                rack.slot_numbers_for_product_with_exp_date(exp_date)
 
         elif action == 'slot_number_for_sku_number':
-            sku = commands[1]
-            rack.slot_number_for_sku_number(sku)
+            validation = Validator(commands)
+            if failure := validation.valid(action):
+                print(failure)
+
+            else:
+                sku = commands[1]
+                rack.slot_number_for_sku_number(sku)
 
         else:
             print("Unknown command.")
