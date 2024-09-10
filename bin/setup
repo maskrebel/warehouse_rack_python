@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+# Install dependencies, if not in user root use command with sudo
+echo "Install dependencies"
+apt update && apt upgrade
+apt-get update && apt-get install -y \
+    build-essential \
+    wget \
+    libssl-dev \
+    zlib1g-dev \
+    libncurses5-dev \
+    libsqlite3-dev \
+    libreadline-dev \
+    libtk8.6 \
+    libgdbm-dev \
+    libc6-dev \
+    libbz2-dev \
+    libffi-dev \
+    uuid-dev \
+#    && apt-get clean
+
+# download source code python
+wget https://www.python.org/ftp/python/3.8.17/Python-3.8.17.tgz \
+    && tar xzf Python-3.8.17.tgz
+
+Python-3.8.17/configure --enable-optimizations \
+    && make -j $(nproc) \
+    && make altinstall
+
+rm Python-3.8.17.tgz && rm -rf Python-3.8.17
+
+# check python installed
+python3 --version
+
+
+# setup ENV
+echo "setup ENV"
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+
+# Running unittest
+python3 -m unittest $DIR/../tests/test_warehouse_rack.py
