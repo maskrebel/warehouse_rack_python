@@ -1,6 +1,6 @@
 import unittest
 
-from warehouse.warehouse_rack import WarehouseRack
+from warehouse.rack.service import WarehouseRack
 
 
 class TestWarehouseRack(unittest.TestCase):

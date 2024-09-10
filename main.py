@@ -1,7 +1,7 @@
 import sys
 
-from warehouse.validator import Validator
-from warehouse.warehouse_rack import WarehouseRack
+from warehouse.rack.validator import ValidatorWarehouseRack
+from warehouse.rack.service import WarehouseRack
 
 
 def preprocessing(commands, rack):
@@ -10,8 +10,8 @@ def preprocessing(commands, rack):
         return
 
     if action in ['create_rack', 'create_warehouse_rack']:
-        validation = Validator(commands)
-        if failure:= validation.valid():
+        validation = ValidatorWarehouseRack(commands)
+        if failure := validation.valid():
             print(failure)
             return
 
@@ -23,7 +23,7 @@ def preprocessing(commands, rack):
         print("Please create a rack first using 'create_rack'.")
 
     elif action == 'rack':
-        validation = Validator(commands)
+        validation = ValidatorWarehouseRack(commands)
         if failure := validation.valid():
             print(failure)
 
@@ -34,7 +34,7 @@ def preprocessing(commands, rack):
             print(res)
 
     elif action == 'rack_out':
-        validation = Validator(commands)
+        validation = ValidatorWarehouseRack(commands)
         if failure := validation.valid():
             print(failure)
 
@@ -44,7 +44,7 @@ def preprocessing(commands, rack):
             print(res)
 
     elif action == 'status':
-        validation = Validator(commands)
+        validation = ValidatorWarehouseRack(commands)
         if failure := validation.valid():
             print(failure)
 
@@ -52,7 +52,7 @@ def preprocessing(commands, rack):
             rack.status()
 
     elif action == 'sku_numbers_for_product_with_exp_date':
-        validation = Validator(commands)
+        validation = ValidatorWarehouseRack(commands)
         if failure := validation.valid():
             print(failure)
 
@@ -62,7 +62,7 @@ def preprocessing(commands, rack):
             print(res)
 
     elif action == 'slot_numbers_for_product_with_exp_date':
-        validation = Validator(commands)
+        validation = ValidatorWarehouseRack(commands)
         if failure := validation.valid():
             print(failure)
 
@@ -72,7 +72,7 @@ def preprocessing(commands, rack):
             print(res)
 
     elif action == 'slot_number_for_sku_number':
-        validation = Validator(commands)
+        validation = ValidatorWarehouseRack(commands)
         if failure := validation.valid():
             print(failure)
 

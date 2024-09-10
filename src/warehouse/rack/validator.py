@@ -1,4 +1,4 @@
-class Validator:
+class ValidatorWarehouseRack:
     def __init__(self, commands):
         self.commands = commands
         self.action = commands[0]
