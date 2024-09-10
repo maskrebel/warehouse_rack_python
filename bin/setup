@@ -17,25 +17,25 @@ apt-get update && apt-get install -y \
     libbz2-dev \
     libffi-dev \
     uuid-dev \
+    software-properties-common \
     && apt-get clean
 
 # download source code python
 wget https://www.python.org/ftp/python/3.8.17/Python-3.8.17.tgz \
     && tar xzf Python-3.8.17.tgz
 
-Python-3.8.17/configure --enable-optimizations \
-    && make -j $(nproc) \
-    && make altinstall
+cd Python-3.8.17
+./configure --prefix=/opt/python3.8 && make -j $(nproc) && make altinstall
 
+cd ..
 rm Python-3.8.17.tgz && rm -rf Python-3.8.17
 
 # check python installed
 python3 --version
 
-
 # setup ENV
 echo "setup ENV"
-export PYTHONPATH=/$(pwd)/src
+export PYTHONPATH=$(pwd)/src
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
