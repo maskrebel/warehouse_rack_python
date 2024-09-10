@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# setup ENV
+export PYTHONPATH=$(pwd)/src
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+
+# Running unittest
+python3 -m unittest $DIR/../tests/test_warehouse_rack.py
