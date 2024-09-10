@@ -30,7 +30,8 @@ def preprocessing(commands, rack):
         else:
             sku = commands[1]
             expiry_date = commands[2]
-            rack.rack(sku, expiry_date)
+            res = rack.rack(sku, expiry_date)
+            print(res)
 
     elif action == 'rack_out':
         validation = Validator(commands)
@@ -39,7 +40,8 @@ def preprocessing(commands, rack):
 
         else:
             slot_number = int(commands[1])
-            rack.rack_out(slot_number)
+            res = rack.rack_out(slot_number)
+            print(res)
 
     elif action == 'status':
         validation = Validator(commands)
@@ -56,7 +58,8 @@ def preprocessing(commands, rack):
 
         else:
             exp_date = commands[1]
-            rack.sku_numbers_for_product_with_exp_date(exp_date)
+            res = rack.sku_numbers_for_product_with_exp_date(exp_date)
+            print(res)
 
     elif action == 'slot_numbers_for_product_with_exp_date':
         validation = Validator(commands)
@@ -65,7 +68,8 @@ def preprocessing(commands, rack):
 
         else:
             exp_date = commands[1]
-            rack.slot_numbers_for_product_with_exp_date(exp_date)
+            res = rack.slot_numbers_for_product_with_exp_date(exp_date)
+            print(res)
 
     elif action == 'slot_number_for_sku_number':
         validation = Validator(commands)
@@ -74,7 +78,8 @@ def preprocessing(commands, rack):
 
         else:
             sku = commands[1]
-            rack.slot_number_for_sku_number(sku)
+            res = rack.slot_number_for_sku_number(sku)
+            print(res)
 
     else:
         print("Unknown command.")
@@ -100,7 +105,6 @@ def main():
                     rack = preprocessing(line, rack)
         except FileNotFoundError:
             print("File not found")
-
 
 
 if __name__ == '__main__':
